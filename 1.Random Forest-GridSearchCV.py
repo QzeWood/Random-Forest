@@ -21,6 +21,7 @@ from sklearn import tree
 import graphviz
 import dtreeviz
 from sklearn.tree import plot_tree
+
 #解决中文乱码问题
 plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 # #查找自己電腦的字體，本機為Mac，選用了庫中的'Arial'字體
@@ -35,7 +36,6 @@ print(start_time)
 print("======================================")
 # 读取数据集
 CRM = pd.read_csv("/Users/wood/Desktop/UXLab/dataclean_v2/ML/RF_input/input-1.csv")
-
 CRM.columns = ['BNB_age(D)', 'BNB_I', "R_bnb'", "F_bnb'", 'cluster']
 
 # 进行非数值型数据处理
@@ -80,10 +80,6 @@ print("Accuracy:", accuracy_score(y_test, y_pred))
 print("Recall:", recall_score(y_test, y_pred, average='macro'))
 print("F1 Score:", f1_score(y_test, y_pred, average='macro'))
 
-# # 显示混淆矩阵和分类报告
-# print("分類報告")
-# print(classification_report(y_test, y_pred))
-
 # 特征重要性可视化
 feature_importances = best_rf.feature_importances_
 feature_names = CRM_x.columns
@@ -112,21 +108,14 @@ print("分類報告:\n", classification_rep)
 print("======================================")
 #決策樹可視化
 # tree = best_rf.estimators_[5]
-print("—————————————————1———————————————————")
-# plt.figure(figsize=(10, 10))
-# # 這裡設置深度，以讓圖像化顯示更加完整；, rounded=True, precision=2是額外加的
-# plot_tree(tree, feature_names=feature_names, class_names=[str(c) for c in best_rf.classes_], filled=True, max_depth=3, rounded=True, precision=2)
-# plt.show()
-print("—————————————————2———————————————————")
+print("————————————————————————————————————")
 estimator = best_rf.estimators_[5]
 dot_data = export_graphviz(estimator, out_file=None, feature_names=feature_names, class_names=[str(c) for c in best_rf.classes_], filled=True)
 graph = graphviz.Source(dot_data)
 graph.render("/Users/wood/Desktop/UXLab/dataclean_v2/ML/RF_input/tree-努力型-MM")  # 保存为tree.pdf文件
-print("—————————————————3———————————————————")
 
-print("======================================")
 print("ok!!")
-
+print("======================================")
 end_time = time.time()
 print(end_time)
 duration = end_time - start_time
